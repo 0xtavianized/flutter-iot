@@ -82,12 +82,12 @@ class _HistoryPageState extends State<HistoryPage> {
             final field1Data = lastFeed['field1'] ?? '0';
             final field2Data = lastFeed['field2'] ?? '0';
             final field3Data = lastFeed['field3'] ?? '0';
-            final suhuData = lastFeed['field4'] ?? '0';
+            // final suhuData = lastFeed['field4'] ?? '0';
 
             final double debit1 = double.tryParse(field1Data) ?? 0;
             final double debit2 = double.tryParse(field2Data) ?? 0;
             final double debit3 = double.tryParse(field3Data) ?? 0;
-            final double suhu = double.tryParse(suhuData) ?? 0;
+            // final double suhu = double.tryParse(suhuData) ?? 0;
 
             if (debit2 + debit3 < debit1) {
               airHilang = (debit1 - (debit2 + debit3)).toStringAsFixed(2);
@@ -351,7 +351,7 @@ class _HistoryPageState extends State<HistoryPage> {
                             child: ListTile(
                               title: Text(
                                 selectedField == 'Semua'
-                                    ? 'Saluran 1 : ${item['Saluran 1']} L/d\nSaluran 2 : ${item['Saluran 2']} L/d\nSaluran 3 : ${item['Saluran 3']} L/d\nSuhu : ${item['Suhu']}°C\nAir Hilang : $airHilang L/d'
+                                    ? 'Saluran 1 : ${item['Saluran 1']} L/d\nSaluran 2 : ${item['Saluran 2']} L/d\nSaluran 3 : ${item['Saluran 3']} L/d\nSuhu : ${item['Suhu']}°C'
                                     : selectedField == 'field4'
                                         ? 'Suhu : ${item['value']}°C'
                                         : 'Debit: ${item['value']} L/d',
