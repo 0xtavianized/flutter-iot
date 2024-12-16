@@ -352,9 +352,8 @@ class _HistoryPageState extends State<HistoryPage> {
                               title: Text(
                                 selectedField == 'Semua'
                                     ? 'Saluran 1 : ${item['Saluran 1']} L/d\nSaluran 2 : ${item['Saluran 2']} L/d\nSaluran 3 : ${item['Saluran 3']} L/d\nSuhu : ${item['Suhu']}°C\nAir Hilang : $airHilang L/d'
-                                    : selectedField ==
-                                            'field4' // jika memilih saluran suhu
-                                        ? 'Suhu : ${item['value']}°C' // tampilkan suhu dalam format yang benar
+                                    : selectedField == 'field4'
+                                        ? 'Suhu : ${item['value']}°C'
                                         : 'Debit: ${item['value']} L/d',
                               ),
                               subtitle: Text(
