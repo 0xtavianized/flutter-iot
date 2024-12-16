@@ -118,7 +118,7 @@ class PendapatanPage extends StatelessWidget {
   Widget _buildLossCard(String title, double loss) {
     return Card(
       elevation: 4.0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
       color: Colors.red.shade50,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
