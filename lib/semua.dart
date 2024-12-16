@@ -19,7 +19,6 @@ class _SaluranAllState extends State<SaluranAllPage> {
   bool isLoading = true;
   late Timer timer;
 
-  // Variables to store the calculated volumes for flow data
   double volume1 = 0.0;
   double volume2 = 0.0;
   double volume3 = 0.0;
@@ -60,15 +59,12 @@ class _SaluranAllState extends State<SaluranAllPage> {
           final double debit2 = double.tryParse(field2Data!) ?? 0;
           final double debit3 = double.tryParse(field3Data!) ?? 0;
 
-          const double timeInMinutes =
-              1.0; // Assuming data is refreshed every minute
+          const double timeInMinutes = 1.0;
 
-          // Calculate volumes for each channel
           volume1 = debit1 * timeInMinutes;
           volume2 = debit2 * timeInMinutes;
           volume3 = debit3 * timeInMinutes;
 
-          // Calculate volume for air hilang (lost water)
           if (debit2 + debit3 < debit1) {
             volumeAirHilang = (debit1 - (debit2 + debit3)) * timeInMinutes;
             airHilang = volumeAirHilang.toStringAsFixed(2);
@@ -104,7 +100,7 @@ class _SaluranAllState extends State<SaluranAllPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Data Debit Air',
+          'Semua Data Air',
           style: TextStyle(fontSize: 24, color: Colors.white),
         ),
         backgroundColor: Colors.blueAccent,
@@ -170,6 +166,95 @@ class _SaluranAllState extends State<SaluranAllPage> {
     );
   }
 
+  Widget _buildSuhuCard({
+    required String title,
+    required String value,
+    required String unit,
+    required IconData icon,
+    required Color color,
+  }) {
+    return Card(
+      elevation: 4.0,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Row(
+          children: [
+            CircleAvatar(
+              radius: 30,
+              backgroundColor: color.withOpacity(0.2),
+              child: Icon(icon, size: 30, color: color),
+            ),
+            const SizedBox(width: 16.0),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8.0),
+                  Text.rich(
+                    TextSpan(
+                      children: [
+                        TextSpan(
+                          text: value,
+                          style: const TextStyle(
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                        TextSpan(
+                          text: ' $unit',
+                          style: const TextStyle(fontSize: 16.0),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildairHilangCard() {
+    return Card(
+      elevation: 4.0,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Row(
+          children: [
+            CircleAvatar(
+              radius: 30,
+              backgroundColor: Colors.red.withOpacity(0.2),
+              child: const Icon(Icons.warning, size: 30, color: Colors.red),
+            ),
+            const SizedBox(width: 16.0),
+            Expanded(
+              child: Text(
+                'Debit air hilang: $airHilang L/m\nVolume: ${volumeAirHilang.toStringAsFixed(2)} L',
+                style: const TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.red,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _buildDataCard({
     required String title,
     required String value,
@@ -230,95 +315,6 @@ class _SaluranAllState extends State<SaluranAllPage> {
                     ),
                   ),
                 ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSuhuCard({
-    required String title,
-    required String value,
-    required String unit,
-    required IconData icon,
-    required Color color,
-  }) {
-    return Card(
-      elevation: 4.0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
-          children: [
-            CircleAvatar(
-              radius: 30,
-              backgroundColor: color.withOpacity(0.2),
-              child: Icon(icon, size: 30, color: color),
-            ),
-            const SizedBox(width: 16.0),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 8.0),
-                  Text.rich(
-                    TextSpan(
-                      children: [
-                        TextSpan(
-                          text: value,
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold,
-                            color: color,
-                          ),
-                        ),
-                        TextSpan(
-                          text: ' $unit',
-                          style: const TextStyle(fontSize: 16.0),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildairHilangCard() {
-    return Card(
-      elevation: 4.0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
-          children: [
-            CircleAvatar(
-              radius: 30,
-              backgroundColor: Colors.red.withOpacity(0.2),
-              child: const Icon(Icons.warning, size: 30, color: Colors.red),
-            ),
-            const SizedBox(width: 16.0),
-            Expanded(
-              child: Text(
-                'Debit air hilang: $airHilang L/m\nVolume: ${volumeAirHilang.toStringAsFixed(2)} L',
-                style: const TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.red,
-                ),
               ),
             ),
           ],

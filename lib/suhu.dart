@@ -83,11 +83,11 @@ class _SuhuPageState extends State<SuhuPage> {
                       children: [
                         CircleAvatar(
                           radius: 40,
-                          backgroundColor: Colors.blue[50],
+                          backgroundColor: Colors.yellow[50],
                           child: const Icon(
                             Icons.thermostat,
                             size: 40,
-                            color: Colors.blue,
+                            color: Colors.yellow,
                           ),
                         ),
                         const SizedBox(height: 16.0),
@@ -96,7 +96,7 @@ class _SuhuPageState extends State<SuhuPage> {
                           style: TextStyle(
                             fontSize: 22.0,
                             fontWeight: FontWeight.bold,
-                            color: Colors.blueAccent,
+                            color: Colors.yellow,
                           ),
                         ),
                         const SizedBox(height: 16.0),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iotsatya/pendapatan.dart';
 import 'saluran_1.dart';
 import 'saluran_2.dart';
 import 'saluran_3.dart';
@@ -118,6 +119,23 @@ class HomePage extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) => const HistoryPage(),
+                  ),
+                );
+              },
+            ),
+            _buildIconCard(
+              icon: Icons.attach_money,
+              label: 'Pendapatan',
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const PendapatanPage(
+                      volume1: 0.0,
+                      volume2: 0.0,
+                      volume3: 0.0,
+                      volumeAirHilang: 0.0,
+                    ),
                   ),
                 );
               },

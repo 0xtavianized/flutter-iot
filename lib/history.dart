@@ -188,7 +188,7 @@ class _HistoryPageState extends State<HistoryPage> {
     try {
       final dateTimeUtc = DateTime.parse(createdAt);
 
-      final dateTimeLocal = dateTimeUtc.add(Duration(hours: 7));
+      final dateTimeLocal = dateTimeUtc.add(const Duration(hours: 7));
 
       return DateFormat('HH:mm:ss').format(dateTimeLocal);
     } catch (e) {
