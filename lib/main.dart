@@ -131,9 +131,9 @@ class HomePage extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) => const PendapatanPage(
-                      volume1: 0.0,
-                      volume2: 0.0,
-                      volume3: 0.0,
+                      volume5: 0.0,
+                      volume6: 0.0,
+                      volume7: 0.0,
                       volumeAirHilang: 0.0,
                     ),
                   ),
