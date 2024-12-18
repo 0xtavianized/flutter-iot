@@ -14,6 +14,9 @@ class _HistoryPageState extends State<HistoryPage> {
   String? field1Data;
   String? field2Data;
   String? field3Data;
+  String? field5Data;
+  String? field6Data;
+  String? field7Data;
   String? suhuData;
   String? selectedField;
   String? airHilang;
@@ -64,6 +67,9 @@ class _HistoryPageState extends State<HistoryPage> {
                       'Saluran 1': feed['field1'] ?? 'No Data',
                       'Saluran 2': feed['field2'] ?? 'No Data',
                       'Saluran 3': feed['field3'] ?? 'No Data',
+                      'Volume 1': feed['field5'] ?? 'No Data',
+                      'Volume 2': feed['field6'] ?? 'No Data',
+                      'Volume 3': feed['field7'] ?? 'No Data',
                       'Suhu': feed['field4'] ?? 'No Data',
                       'created_at': feed['created_at'] ?? 'Unknown Time',
                     })
@@ -351,10 +357,16 @@ class _HistoryPageState extends State<HistoryPage> {
                             child: ListTile(
                               title: Text(
                                 selectedField == 'Semua'
-                                    ? 'Saluran 1 : ${item['Saluran 1']} L/d\nSaluran 2 : ${item['Saluran 2']} L/d\nSaluran 3 : ${item['Saluran 3']} L/d\nSuhu : ${item['Suhu']}°C'
-                                    : selectedField == 'field4'
-                                        ? 'Suhu : ${item['value']}°C'
-                                        : 'Debit: ${item['value']} L/d',
+                                    ? 'Saluran 1 : ${item['Saluran 1']} L/m | Vol : ${item['Volume 1']} L\nSaluran 2 : ${item['Saluran 2']} L/m | Vol : ${item['Volume 2']} L\nSaluran 3 : ${item['Saluran 3']} L/m | Vol : ${item['Volume 3']} L\nSuhu : ${item['Suhu']}°C'
+                                    : selectedField == 'field1'
+                                        ? 'Saluran 1 : ${item['Saluran 1']} L/m | Vol : ${item['Volume 1']} L'
+                                        : selectedField == 'field2'
+                                            ? 'Saluran 2 : ${item['Saluran 2']} L/m | Vol : ${item['Volume 2']} L'
+                                            : selectedField == 'field3'
+                                                ? 'Saluran 3 : ${item['Saluran 3']} L/m | Vol : ${item['Volume 3']} L'
+                                                : selectedField == 'field4'
+                                                    ? 'Suhu : ${item['Suhu']}°C'
+                                                    : 'Debit: ${item['value']} L/d',
                               ),
                               subtitle: Text(
                                   'Waktu : ${formatTime(item['created_at'])}'),
