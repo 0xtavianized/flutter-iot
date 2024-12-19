@@ -4,12 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 
 class PendapatanPage extends StatefulWidget {
-  const PendapatanPage(
-      {super.key,
-      required double volume5,
-      required double volume7,
-      required double volume6,
-      required double volumeAirHilang});
+  const PendapatanPage({super.key});
 
   @override
   State<PendapatanPage> createState() => _PendapatanState();
@@ -19,7 +14,6 @@ class _PendapatanState extends State<PendapatanPage> {
   String? field5Data;
   String? field6Data;
   String? field7Data;
-  String? airHilang;
   bool isLoading = true;
   late Timer timer;
 
@@ -32,6 +26,9 @@ class _PendapatanState extends State<PendapatanPage> {
   double revenueField6 = 0.0;
   double revenueField7 = 0.0;
   double loss = 0.0;
+
+  String selectedMonth = '01';
+  String selectedYear = '2024';
 
   double calculateRevenue(double volume) {
     return (volume / 100) * (volume <= 100 ? 2500 : 3200);
@@ -55,17 +52,18 @@ class _PendapatanState extends State<PendapatanPage> {
   Future<void> _fetchData() async {
     const channelId = '2783698';
     const apiKey = 'FOH29NJIHQ4DT1E7';
-    const url =
-        'https://api.thingspeak.com/channels/$channelId/feeds/last.json?api_key=$apiKey';
+
+    final url =
+        'https://api.thingspeak.com/channels/$channelId/feeds.json?api_key=$apiKey&start=$selectedYear-$selectedMonth-01&end=$selectedYear-$selectedMonth-30';
 
     try {
       final response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {
         final jsonResponse = json.decode(response.body);
         setState(() {
-          field5Data = jsonResponse['field5'] ?? '0';
-          field6Data = jsonResponse['field6'] ?? '0';
-          field7Data = jsonResponse['field7'] ?? '0';
+          field5Data = jsonResponse['feeds'][0]['field5'] ?? '0';
+          field6Data = jsonResponse['feeds'][0]['field6'] ?? '0';
+          field7Data = jsonResponse['feeds'][0]['field7'] ?? '0';
 
           final double debit5 = double.tryParse(field5Data!) ?? 0;
           final double debit6 = double.tryParse(field6Data!) ?? 0;
@@ -85,10 +83,9 @@ class _PendapatanState extends State<PendapatanPage> {
             volumeAirHilang =
                 ((volume5 - (volume6 + volume7)) * timeInMinutes).abs();
             loss = calculateRevenue(volumeAirHilang);
-            airHilang = loss.toStringAsFixed(2);
           } else {
-            airHilang = '0';
             volumeAirHilang = 0.0;
+            loss = 0.0;
           }
 
           isLoading = false;
@@ -137,6 +134,64 @@ class _PendapatanState extends State<PendapatanPage> {
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
                   children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: DropdownButton<String>(
+                            value: selectedMonth,
+                            items: [
+                              {'01': 'Januari'},
+                              {'02': 'Februari'},
+                              {'03': 'Maret'},
+                              {'04': 'April'},
+                              {'05': 'Mei'},
+                              {'06': 'Juni'},
+                              {'07': 'Juli'},
+                              {'08': 'Agustus'},
+                              {'09': 'September'},
+                              {'10': 'Oktober'},
+                              {'11': 'November'},
+                              {'12': 'Desember'},
+                            ].map((month) {
+                              final key = month.keys.first;
+                              final value = month[key]!;
+                              return DropdownMenuItem<String>(
+                                value: key,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                            onChanged: (value) {
+                              setState(() {
+                                selectedMonth = value!;
+                                isLoading = true;
+                              });
+                              _fetchData();
+                            },
+                          ),
+                        ),
+                        const SizedBox(width: 16.0),
+                        Expanded(
+                          child: DropdownButton<String>(
+                            value: selectedYear,
+                            items: List.generate(5, (index) {
+                              int year = DateTime.now().year - index;
+                              return DropdownMenuItem<String>(
+                                value: year.toString(),
+                                child: Text(year.toString()),
+                              );
+                            }),
+                            onChanged: (value) {
+                              setState(() {
+                                selectedYear = value!;
+                                isLoading = true;
+                              });
+                              _fetchData();
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16.0),
                     _buildDataCard(
                       title:
                           'Biaya Kontribusi Distribusi Air SPAM Petanglong Batang',
@@ -164,10 +219,8 @@ class _PendapatanState extends State<PendapatanPage> {
                       icon: Icons.attach_money_outlined,
                       color: Colors.green,
                     ),
-                    if (airHilang != null) ...[
-                      const SizedBox(height: 16.0),
-                      _buildairHilangCard(),
-                    ],
+                    const SizedBox(height: 16.0),
+                    _buildAirHilangCard(),
                   ],
                 ),
               ),
@@ -175,7 +228,7 @@ class _PendapatanState extends State<PendapatanPage> {
     );
   }
 
-  Widget _buildairHilangCard() {
+  Widget _buildAirHilangCard() {
     return Card(
       elevation: 4.0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
@@ -192,7 +245,7 @@ class _PendapatanState extends State<PendapatanPage> {
             const SizedBox(width: 16.0),
             Expanded(
               child: Text(
-                'Kerugian: Rp $airHilang \nVolume: ${volumeAirHilang.toStringAsFixed(2)} L',
+                'Kerugian: Rp ${loss.toStringAsFixed(2)}\nVolume: ${volumeAirHilang.toStringAsFixed(2)} L',
                 style: const TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,

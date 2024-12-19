@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iotsatya/pendapatan.dart';
-import 'saluran_1.dart';
-import 'saluran_2.dart';
-import 'saluran_3.dart';
 import 'semua.dart';
-import 'suhu.dart';
 import 'history.dart';
 
 void main() {
@@ -64,54 +60,6 @@ class HomePage extends StatelessWidget {
               },
             ),
             _buildIconCard(
-              icon: Icons.account_tree_outlined,
-              label: 'Saluran 1',
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const Saluran1Page(),
-                  ),
-                );
-              },
-            ),
-            _buildIconCard(
-              icon: Icons.account_tree_outlined,
-              label: 'Saluran 2',
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const Saluran2Page(),
-                  ),
-                );
-              },
-            ),
-            _buildIconCard(
-              icon: Icons.account_tree_outlined,
-              label: 'Saluran 3',
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const Saluran3Page(),
-                  ),
-                );
-              },
-            ),
-            _buildIconCard(
-              icon: Icons.thermostat,
-              label: 'Suhu',
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const SuhuPage(),
-                  ),
-                );
-              },
-            ),
-            _buildIconCard(
               icon: Icons.watch_later_outlined,
               label: 'History',
               onTap: () {
@@ -130,12 +78,7 @@ class HomePage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const PendapatanPage(
-                      volume5: 0.0,
-                      volume6: 0.0,
-                      volume7: 0.0,
-                      volumeAirHilang: 0.0,
-                    ),
+                    builder: (context) => const PendapatanPage(),
                   ),
                 );
               },
